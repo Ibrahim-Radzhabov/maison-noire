@@ -1,73 +1,104 @@
-# React + TypeScript + Vite
+# Maison Noire — Haute Parfumerie
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Лендинг премиального парфюмерного бренда. Тёмная палитра, золотые акценты, кинематографичные анимации.
 
-Currently, two official plugins are available:
+![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Превью
 
-## React Compiler
+Лендинг состоит из 7 секций:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Hero** — карусель на 3 слайда с видео-фонами, авто-переключение каждые 8 секунд
+- **Ритуал** — split-layout: текст + видео с clip-path анимацией
+- **Отзывы** — горизонтальный скролл с snap
+- **Коллекция** — grid карточек с hover-эффектами
+- **Процесс** — 3 fullscreen секции с параллаксом
+- **Футер** — 4-колоночный grid + крупный лого
 
-## Expanding the ESLint configuration
+## Стек
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+| Технология | Зачем |
+|-----------|-------|
+| React 18 + TypeScript | Компоненты, строгая типизация |
+| Vite | Сборка, HMR |
+| Vanilla CSS | Единый `global.css`, CSS-переменные, никаких UI-библиотек |
+| Google Fonts | Playfair Display + Inter |
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Без Tailwind, без Bootstrap, без styled-components, без Framer Motion.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Запуск
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+# Установить зависимости
+npm install
+
+# Запустить dev-сервер
+npm run dev
+
+# Собрать продакшен
+npm run build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Dev-сервер запустится на `http://localhost:5173`
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Структура
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+  components/
+    Navbar.tsx              # Фиксированная навигация с blur при скролле
+    HeroCarousel.tsx        # Карусель с посимвольной анимацией заголовков
+    RitualSection.tsx       # Split-layout с clip-path reveal видео
+    Testimonials.tsx        # Горизонтальный скролл отзывов
+    CollectionSection.tsx   # Grid карточек ароматов
+    ProcessSection.tsx      # Fullscreen секции с параллаксом
+    Footer.tsx              # Футер с анимацией лого
+    ScrollProgress.tsx      # Полоска прогресса скролла
+    GoldParticles.tsx       # Декоративные частицы
+    SectionDivider.tsx      # SVG-волны между секциями
+  data/
+    content.ts              # Все тексты, URL видео, fallback-градиенты
+  hooks/
+    useReveal.ts            # IntersectionObserver для scroll-анимаций
+    useCarousel.ts          # Логика карусели: таймер, навигация, touch swipe
+  styles/
+    global.css              # Единый файл стилей + дизайн-система
+  App.tsx
+  main.tsx
+```
+
+## Анимации
+
+- Посимвольное появление заголовков Hero (каскадная задержка 0.04s)
+- Золотой shimmer на метках секций (`background-clip: text`)
+- Плавающие золотые частицы на тёмных фонах
+- Параллакс на Process-секциях
+- Clip-path reveal видео в Ritual
+- Волновые SVG-разделители между секциями
+- Scroll progress bar вверху страницы
+- Виньетка на видео (радиальный градиент)
+- Прогресс-заполнение активной точки карусели
+- `reveal`, `reveal-left`, `reveal-right`, `reveal-scale` — разные направления появления
+
+Все анимации отключаются при `prefers-reduced-motion: reduce`.
+
+## Видео
+
+Используются видео с Pexels (бесплатная лицензия). Каждое видео имеет CSS-градиент как fallback — если видео не загрузится, пользователь увидит градиент, а не чёрный экран.
+
+Ленивая загрузка: видео за пределами viewport имеют `preload="none"`, загрузка начинается через IntersectionObserver за 200px до появления.
+
+## Адаптивность
+
+Единственный breakpoint: `768px`. На мобильном:
+- Навигация скрывается (только лого + корзина)
+- Карусель адаптируется под маленький экран
+- Ritual переключается в колонку
+- Collection — 1 карточка в ряд
+- Частицы отключаются
+
+## Лицензия
+
+MIT
